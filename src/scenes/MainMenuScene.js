@@ -12,7 +12,7 @@ export class MainMenuScene extends Phaser.Scene {
         const { width, height } = this.cameras.main;
 
         // Title on left side
-        this.add.text(width * 0.25, height / 2, 'CASE: KIRA', {
+        this.add.text(width * 0.25, height / 2, 'CASE ZERO', {
             fontSize: '42px',
             fontFamily: 'DeathNote, serif',
             color: '#ffffff',

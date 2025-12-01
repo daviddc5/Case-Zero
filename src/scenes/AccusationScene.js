@@ -24,7 +24,7 @@ export class AccusationScene extends Phaser.Scene {
             color: '#ff0000'
         });
         
-        this.add.text(10, 32, 'Select the suspect you believe is Kira', {
+        this.add.text(10, 32, 'Select the suspect you believe is the cyber-vigilante', {
             fontSize: '10px',
             fontFamily: 'Courier Prime, monospace',
             color: '#888888'
@@ -150,7 +150,7 @@ export class AccusationScene extends Phaser.Scene {
                 color: '#00ff00'
             }).setOrigin(0.5);
 
-            const name = this.add.text(0, -30, `${suspect.name} is Kira!`, {
+            const name = this.add.text(0, -30, `${suspect.name} is the hacker!`, {
                 fontSize: '16px',
                 fontFamily: 'Courier Prime, monospace',
                 color: '#ffffff'
@@ -193,7 +193,7 @@ export class AccusationScene extends Phaser.Scene {
                 color: '#ff0000'
             }).setOrigin(0.5);
 
-            const name = this.add.text(0, -30, `${suspect.name} is not Kira.`, {
+            const name = this.add.text(0, -30, `${suspect.name} is not the hacker.`, {
                 fontSize: '16px',
                 fontFamily: 'Courier Prime, monospace',
                 color: '#ffffff'

@@ -1,7 +1,7 @@
 {
   "id": "case_001_test",
-  "title": "The Downtown Murders",
-  "description": "Three connected deaths over one week. A corporate lawyer, a journalist, and a police detective. All died under mysterious circumstances.",
+  "title": "The Digital Reaper",
+  "description": "Three connected deaths over one week. A corporate lawyer, a journalist, and a police detective. All died under mysterious circumstances with signs of sophisticated cyber intrusion. Someone is using technology as a weapon.",
   "kills": [
     {
       "index": 0,
@@ -50,82 +50,82 @@
     {
       "id": "suspect_kira",
       "name": "Alex Tanaka",
-      "role": "University student / Part-time data analyst",
-      "motive": "Believes they're creating a better world by eliminating corrupt people. Started after their parent died due to corporate negligence.",
+      "role": "Grief counselor at community center",
+      "motive": "Believes they're creating a better world by eliminating corrupt people through cyber means. Started after their parent died due to corporate negligence. Self-taught hacker with deep knowledge of IoT vulnerabilities.",
       "isKira": true,
       "alibi": {
         "suspectId": "suspect_kira",
         "timeline": [
-          {"hour": 18, "location": "university_library", "activity": "Studying for exams", "witnesses": ["librarian"]},
-          {"hour": 19, "location": "university_library", "activity": "Still studying", "witnesses": []},
-          {"hour": 20, "location": "home_apartment", "activity": "Walking home", "witnesses": []},
-          {"hour": 21, "location": "home_apartment", "activity": "At home", "witnesses": []},
-          {"hour": 22, "location": "home_apartment", "activity": "At home watching TV", "witnesses": ["roommate"]},
+          {"hour": 18, "location": "community_center", "activity": "Group therapy session", "witnesses": ["receptionist", "clients"]},
+          {"hour": 19, "location": "community_center", "activity": "One-on-one session", "witnesses": ["client"]},
+          {"hour": 20, "location": "coffee_shop", "activity": "Meeting friend for coffee", "witnesses": ["friend", "barista"]},
+          {"hour": 21, "location": "home_apartment", "activity": "Walking home", "witnesses": []},
+          {"hour": 22, "location": "home_apartment", "activity": "At home reading", "witnesses": ["roommate"]},
           {"hour": 23, "location": "home_apartment", "activity": "Asleep", "witnesses": ["roommate"]}
         ],
-        "statement": "I was at the library until 8pm, then walked home. I watched TV with my roommate and went to bed around 11:30pm."
+        "statement": "I had therapy sessions until 8pm, then met my friend Lisa at the coffee shop. Got home around 9:30pm, read for a bit, then went to sleep around 11pm."
       },
       "relatedEvidence": ["ev_002", "ev_007", "ev_010"]
     },
     {
       "id": "suspect_002",
       "name": "Dr. Elena Volkov",
-      "role": "Psychiatrist",
-      "motive": "Had access to patient records showing victims' crimes. Treated some of the victims' past victims for trauma.",
+      "role": "Psychiatrist specializing in criminal psychology",
+      "motive": "Had access to patient records showing victims' crimes. Treated some of the victims' past victims for trauma. Has written extensively about justice and morality.",
       "isKira": false,
       "alibi": {
         "suspectId": "suspect_002",
         "timeline": [
           {"hour": 18, "location": "private_clinic", "activity": "Patient sessions", "witnesses": ["receptionist"]},
-          {"hour": 19, "location": "private_clinic", "activity": "Patient sessions", "witnesses": ["receptionist"]},
-          {"hour": 20, "location": "restaurant_downtown", "activity": "Dinner meeting", "witnesses": ["colleague"]},
-          {"hour": 21, "location": "restaurant_downtown", "activity": "Still at dinner", "witnesses": ["colleague"]},
+          {"hour": 19, "location": "private_clinic", "activity": "Emergency session", "witnesses": []},
+          {"hour": 20, "location": "restaurant_downtown", "activity": "Dinner alone, reviewing notes", "witnesses": ["waiter"]},
+          {"hour": 21, "location": "restaurant_downtown", "activity": "Still at dinner", "witnesses": ["waiter"]},
           {"hour": 22, "location": "home_apartment", "activity": "Arrived home", "witnesses": []},
-          {"hour": 23, "location": "home_apartment", "activity": "At home", "witnesses": []}
+          {"hour": 23, "location": "home_apartment", "activity": "Working on research paper", "witnesses": []}
         ],
-        "statement": "I had back-to-back sessions until 8pm, then dinner with a colleague downtown. Got home around 10pm."
+        "statement": "I had sessions until 8pm, including one emergency call. Grabbed dinner alone downtown to think. Got home around 10pm and worked on my research about justice psychology."
       },
-      "relatedEvidence": ["ev_005"]
+      "relatedEvidence": ["ev_005", "ev_007"]
     },
     {
       "id": "suspect_003",
       "name": "Victor Kane",
-      "role": "Private investigator",
-      "motive": "Was hired to investigate the victims. Has connections to criminal underworld. Could be eliminating witnesses.",
+      "role": "Private investigator / Former police officer",
+      "motive": "Was hired by victims' families to investigate corruption. Has connections to criminal underworld. Grudge against corrupt officials after being forced off the force.",
       "isKira": false,
       "alibi": {
         "suspectId": "suspect_003",
         "timeline": [
-          {"hour": 18, "location": "downtown_office", "activity": "Following a lead", "witnesses": []},
-          {"hour": 19, "location": "office_building", "activity": "Surveillance", "witnesses": []},
-          {"hour": 20, "location": "downtown_bar", "activity": "Meeting informant", "witnesses": ["bartender"]},
+          {"hour": 18, "location": "downtown_office", "activity": "Following a lead on Marcus Chen", "witnesses": []},
+          {"hour": 19, "location": "office_building", "activity": "Watching Sarah Mitchell's office", "witnesses": []},
+          {"hour": 20, "location": "downtown_bar", "activity": "Meeting informant", "witnesses": ["bartender", "informant"]},
           {"hour": 21, "location": "downtown_bar", "activity": "Still at bar", "witnesses": ["bartender"]},
-          {"hour": 22, "location": "home_apartment", "activity": "Reviewing notes at home", "witnesses": []},
-          {"hour": 23, "location": "riverside_bridge", "activity": "Following lead", "witnesses": []}
+          {"hour": 22, "location": "home_apartment", "activity": "Reviewing case files", "witnesses": []},
+          {"hour": 23, "location": "home_apartment", "activity": "Asleep", "witnesses": ["wife"]}
         ],
-        "statement": "I was working a case. Had surveillance, then met an informant at O'Malley's Bar. Went home briefly, then had to check a lead near the river around 11pm."
+        "statement": "I was tailing Marcus Chen earlier, then watched Sarah Mitchell's office building. Met my informant at O'Malley's around 8pm. Got home by 10:30pm, my wife can confirm."
       },
       "relatedEvidence": ["ev_006", "ev_009"]
     },
     {
       "id": "suspect_004",
       "name": "Maya Ishikawa",
-      "role": "Tech entrepreneur / Startup founder",
-      "motive": "Her startup was nearly destroyed by Marcus Chen's legal maneuvering. Lost millions. Has resources and tech knowledge.",
+      "role": "Tech entrepreneur / Startup founder (AI/Security)",
+      "motive": "Her startup was nearly destroyed by Marcus Chen's legal maneuvering. Lost millions. Has advanced tech knowledge and resources. Her security AI could potentially track and manipulate systems.",
       "isKira": false,
       "alibi": {
         "suspectId": "suspect_004",
         "timeline": [
-          {"hour": 18, "location": "startup_office", "activity": "Team meeting", "witnesses": ["employees"]},
-          {"hour": 19, "location": "startup_office", "activity": "Working late", "witnesses": ["employees"]},
-          {"hour": 20, "location": "startup_office", "activity": "Still working", "witnesses": []},
-          {"hour": 21, "location": "gym_downtown", "activity": "Evening workout", "witnesses": ["trainer"]},
-          {"hour": 22, "location": "home_apartment", "activity": "Home", "witnesses": []},
-          {"hour": 23, "location": "home_apartment", "activity": "Asleep", "witnesses": []}
+          {"hour": 18, "location": "startup_office", "activity": "Team meeting about AI security product", "witnesses": ["employees"]},
+          {"hour": 19, "location": "startup_office", "activity": "Working on code", "witnesses": ["CTO"]},
+          {"hour": 20, "location": "startup_office", "activity": "Still coding", "witnesses": []},
+          {"hour": 21, "location": "startup_office", "activity": "Testing security algorithms", "witnesses": []},
+          {"hour": 22, "location": "gym_downtown", "activity": "Late night workout", "witnesses": ["night staff"]},
+          {"hour": 23, "location": "home_apartment", "activity": "Just got home", "witnesses": []}
         ],
-        "statement": "Long day at the office working on our product launch. Hit the gym around 9pm to clear my head, then went straight home."
+        "statement": "Worked late on our AI security product, trying to fix a critical bug before our investor demo. Finally hit the gym around 10pm, got home just before midnight."
       },
-      "relatedEvidence": ["ev_003"]
+      "relatedEvidence": ["ev_003", "ev_002", "ev_007"]
     }
   ],
   "evidence": [
@@ -248,32 +248,54 @@
       "type": "evidence_conflict",
       "suspectId": "suspect_003",
       "evidenceIds": ["ev_006"],
-      "description": "Victor Kane claims he was at the office building at 7pm doing surveillance, and CCTV confirms this. However, this contradicts his statement about being 'downtown' - the office building IS downtown, but he never mentioned being at the victim's building specifically.",
-      "isKeyContradiction": false
+      "description": "Victor Kane was at Sarah Mitchell's office building at the time of her death (7pm), as confirmed by CCTV. He claims he was doing surveillance but has no proof of who hired him.",
+      "isKeyContradiction": false,
+      "hours": [19]
     },
     {
       "id": "contra_002",
-      "type": "alibi_time",
-      "suspectId": "suspect_003",
-      "evidenceIds": ["2"],
-      "description": "Victor Kane claims to be at the riverside bridge at 11pm 'following a lead', placing him at the exact location and time of Detective Rodriguez's death. He has no witnesses for this.",
-      "isKeyContradiction": true
+      "type": "evidence_conflict",
+      "suspectId": "suspect_004",
+      "evidenceIds": ["ev_002", "ev_007"],
+      "description": "Maya Ishikawa's company specializes in AI security systems capable of hacking networks and spoofing devices. Unknown devices appeared at two murder scenes with sophisticated spoofing - matching her company's capabilities.",
+      "isKeyContradiction": false,
+      "hours": [19, 22]
     },
     {
       "id": "contra_003",
       "type": "evidence_conflict",
-      "suspectId": "suspect_kira",
-      "evidenceIds": ["ev_002", "ev_007"],
-      "description": "Unknown devices with spoofed identities appeared near both Kill 1 and Kill 2, showing technical knowledge. Alex Tanaka is a data analyst with tech skills. The digital evidence pattern suggests someone tech-savvy is involved.",
-      "isKeyContradiction": true
+      "suspectId": "suspect_002",
+      "evidenceIds": ["ev_005", "ev_007"],
+      "description": "Dr. Volkov had 'emergency session' at 7pm with no witnesses - same time as Sarah Mitchell's poisoning. She also researches justice psychology and has written about 'necessary evil' in her papers.",
+      "isKeyContradiction": false,
+      "hours": [19]
     },
     {
       "id": "contra_004",
       "type": "alibi_time",
       "suspectId": "suspect_kira",
-      "evidenceIds": ["0", "1"],
-      "description": "Alex claims to have been home during both Marcus Chen's death (10pm) and at the library during Sarah Mitchell's death (7pm). However, the library closes at 8pm, and the librarian only remembers seeing Alex earlier in the afternoon, not at 6-7pm.",
-      "isKeyContradiction": true
+      "evidenceIds": ["0"],
+      "description": "Alex Tanaka claims witnesses for most of their evening, but has a gap: walked home alone between 9-9:30pm. Community center records show Alex left at 8:15pm, not 8pm - giving 75 minutes unaccounted for.",
+      "isKeyContradiction": true,
+      "hours": [20, 21]
+    },
+    {
+      "id": "contra_005",
+      "type": "evidence_conflict",
+      "suspectId": "suspect_kira",
+      "evidenceIds": ["ev_010"],
+      "description": "Bridge camera footage was tampered with during Detective Rodriguez's death. The tampering required remote access to city systems - Alex's roommate works for the city's IT department.",
+      "isKeyContradiction": true,
+      "hours": [23]
+    },
+    {
+      "id": "contra_006",
+      "type": "evidence_conflict",
+      "suspectId": "suspect_kira",
+      "evidenceIds": ["ev_002", "ev_007"],
+      "description": "Coffee shop receipt found in Alex's trash from 8:05pm shows they were still out, not home 'walking' as claimed. This timing allows presence at both Marcus Chen's apartment area (10pm) and access to bridge area (11pm).",
+      "isKeyContradiction": true,
+      "hours": [20, 21, 22]
     }
   ],
   "metadata": {

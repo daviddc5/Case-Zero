@@ -178,10 +178,6 @@ export class CrimeSceneScene extends Phaser.Scene {
             });
 
             this.showDiscoveryNotification(evidence);
-
-            this.time.delayedCall(1500, () => {
-                this.scene.restart();
-            });
         }
     }
 
@@ -189,23 +185,24 @@ export class CrimeSceneScene extends Phaser.Scene {
         const { width, height } = this.cameras.main;
         
         const notification = this.add.container(width / 2, height / 2);
+        notification.setDepth(1000);
         
-        const bg = this.add.rectangle(0, 0, width - 40, 150, 0x000000, 0.95);
+        const bg = this.add.rectangle(0, 0, width - 40, 180, 0x000000, 0.95);
         bg.setStrokeStyle(3, 0x00ff00);
         
-        const title = this.add.text(0, -50, 'EVIDENCE DISCOVERED', {
+        const title = this.add.text(0, -65, 'EVIDENCE DISCOVERED', {
             fontSize: '16px',
             fontFamily: 'Courier Prime, monospace',
             color: '#00ff00'
         }).setOrigin(0.5);
         
-        const name = this.add.text(0, -20, evidence.name, {
+        const name = this.add.text(0, -35, evidence.name, {
             fontSize: '14px',
             fontFamily: 'Courier Prime, monospace',
             color: '#ffffff'
         }).setOrigin(0.5);
         
-        const desc = this.add.text(0, 10, evidence.description, {
+        const desc = this.add.text(0, 0, evidence.description, {
             fontSize: '11px',
             fontFamily: 'Courier Prime, monospace',
             color: '#cccccc',
@@ -213,7 +210,22 @@ export class CrimeSceneScene extends Phaser.Scene {
             align: 'center'
         }).setOrigin(0.5);
 
-        notification.add([bg, title, name, desc]);
+        // OK button
+        const okButton = this.add.text(0, 60, '[OK]', {
+            fontSize: '14px',
+            fontFamily: 'Courier Prime, monospace',
+            color: '#ffff00',
+            backgroundColor: '#003300',
+            padding: { x: 20, y: 6 }
+        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+
+        okButton.on('pointerdown', () => {
+            okButton.setColor('#ffffff');
+            notification.destroy();
+            this.scene.restart();
+        });
+
+        notification.add([bg, title, name, desc, okButton]);
         
         notification.setAlpha(0);
         this.tweens.add({

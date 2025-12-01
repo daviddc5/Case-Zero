@@ -92,7 +92,7 @@ export class TimelineAnalysisScene extends Phaser.Scene {
             this.add.line(0, 0, gridX, rowY, gridX + panelWidth, rowY, 0x333333, 0.5).setOrigin(0);
 
             // Suspect name - abbreviated for mobile
-            const nameColor = suspect.isKira ? '#ff6666' : '#ffffff';
+            const nameColor = '#ffffff';
             const displayName = suspect.name.split(' ')[0]; // First name only
             const nameText = this.add.text(gridX + 6, rowY + cellHeight / 2, displayName, {
                 fontSize: '10px',
@@ -103,7 +103,7 @@ export class TimelineAnalysisScene extends Phaser.Scene {
             // Make name clickable to view profile
             nameText.setInteractive({ useHandCursor: true });
             nameText.on('pointerover', () => nameText.setColor('#ffff00'));
-            nameText.on('pointerout', () => nameText.setColor(nameColor));
+            nameText.on('pointerout', () => nameText.setColor('#ffffff'));
             nameText.on('pointerdown', () => {
                 this.registry.set('selectedSuspect', suspect.id);
                 this.scene.start('SuspectProfileScene');
@@ -167,28 +167,56 @@ export class TimelineAnalysisScene extends Phaser.Scene {
     }
 
     checkContradictionAtTime(suspect, hour, entry, kill, validator) {
-        // Check if this is the kill time and suspect has weak alibi
+        const engine = this.registry.get('caseEngine');
+        const caseData = engine.currentCase;
+        
+        // Get all contradictions for this suspect from case data
+        const suspectContradictions = caseData.contradictions.filter(c => c.suspectId === suspect.id);
+        
+        // Check if any contradiction specifically mentions this hour
+        const hasHourContradiction = suspectContradictions.some(c => 
+            c.hours && c.hours.includes(hour)
+        );
+        if (hasHourContradiction) return true;
+        
+        // Check if this is the kill time
         if (hour === kill.victim.timeOfDeath) {
+            // Red if no witnesses at murder time
             if (!entry.witnesses || entry.witnesses.length === 0) {
                 return true;
             }
+            
+            // Red if any key contradiction relates to this kill
+            const hasKeyContradiction = suspectContradictions.some(c => 
+                c.isKeyContradiction && 
+                c.evidenceIds && 
+                c.evidenceIds.some(eid => {
+                    const evidence = engine.getEvidence(eid);
+                    return evidence && evidence.killIndex === kill.index;
+                })
+            );
+            if (hasKeyContradiction) return true;
         }
-
-        // Check for evidence-based contradictions
-        const contradictions = validator.findContradictionsForSuspect(suspect.id);
-        return contradictions.some(contra => {
-            // Check if contradiction relates to this time period
-            if (contra.type === 'alibi_time') {
-                // Check if this contradiction is related to the current kill
-                if (contra.evidenceIds && contra.evidenceIds.length > 0) {
-                    const evidenceIndex = parseInt(contra.evidenceIds[0]);
-                    if (evidenceIndex === kill.index) {
-                        return true;
-                    }
-                }
+        
+        // Check if suspect was at crime scene location
+        if (entry.location === kill.victim.location && hour === kill.victim.timeOfDeath) {
+            return true;
+        }
+        
+        // Check for CCTV contradictions at this specific hour
+        const cctvEvidence = caseData.evidence.filter(e => 
+            e.type === 'cctv' && 
+            e.metadata.hour === hour &&
+            e.metadata.capturedPerson === suspect.id
+        );
+        
+        for (const cctv of cctvEvidence) {
+            if (entry.location !== cctv.metadata.location) {
+                return true; // Says one place, CCTV shows another
             }
-            return false;
-        });
+        }
+        
+        return false;
     }
 
     abbreviateLocation(location) {

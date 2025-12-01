@@ -240,18 +240,18 @@ export class ContradictionValidator {
             return {
                 success: true,
                 contradictions: caseContradictions,
-                reason: `${suspect.name} is Kira. Evidence shows ${keyContradictions.length} key contradictions in their alibi.`
+                reason: `${suspect.name} is the cyber-vigilante. Evidence shows ${keyContradictions.length} key contradictions in their alibi and digital fingerprints at multiple crime scenes.`
             };
         } else {
             // Wrong accusation
-            let reason = `${suspect.name} is not Kira.`;
+            let reason = `${suspect.name} is not the cyber-vigilante.`;
             
             if (keyContradictions.length > 0) {
-                reason += ` While they have ${keyContradictions.length} contradictions, they are not the true culprit.`;
+                reason += ` While they have ${keyContradictions.length} contradictions, the digital evidence doesn't match their profile.`;
             } else if (contradictions.length > 0) {
-                reason += ` Their ${contradictions.length} contradictions are not sufficient to prove they are Kira.`;
+                reason += ` Their ${contradictions.length} contradictions are not sufficient to prove they committed these cyber-crimes.`;
             } else {
-                reason += ` They have a solid alibi with no major contradictions.`;
+                reason += ` They have a solid alibi with no major contradictions or digital footprint.`;
             }
             
             return {
