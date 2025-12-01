@@ -1,0 +1,26 @@
+{
+  "name": "shadow-ledger",
+  "version": "0.1.0",
+  "description": "A dual-perspective detective vs. killer logic game inspired by Death Note",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "game",
+    "phaser",
+    "detective",
+    "death-note",
+    "logic-puzzle"
+  ],
+  "author": "daviddc5",
+  "license": "MIT",
+  "dependencies": {
+    "phaser": "^3.80.1"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
