@@ -1,6 +1,6 @@
 # 🎮 GAME DESIGN DOCUMENT (GDD)
 
-## **Title (Working):** *Shadow Ledger*
+## **Title:** *Case: Kira*
 
 *A dual-perspective detective vs. killer logic game inspired by Death Note.*
 

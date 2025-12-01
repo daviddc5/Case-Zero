@@ -1,4 +1,4 @@
-# Shadow Ledger
+# Case: Kira
 
 *A dual-perspective detective vs. killer logic game inspired by Death Note.*
 

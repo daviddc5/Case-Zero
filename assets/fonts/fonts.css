@@ -1,0 +1,13 @@
+/* Custom Death Note-style fonts */
+
+@font-face {
+    font-family: 'DeathNote';
+    src: url('./Death Note.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Fallback to system fonts if custom not loaded */
+/* .death-note-title {
+    font-family: 'DeathNote', 'Old English Text MT', 'UnifrakturMaguntia', serif;
+} */
