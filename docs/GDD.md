@@ -153,31 +153,41 @@ Feel like L:
 For each episode (kill):
 
 1. **Crime Scene Exploration**
-    - Static pixel room
-    - Clickable evidence nodes
+    - Point-and-click pixel rooms (Death Note DS style)
+    - Clickable evidence hotspots
+    - Internal monologue/analysis text
+    - L-style deduction commentary
 2. **Evidence Filing**
     - autopsy
     - CCTV
     - timeline reports
     - suspect statements
     - items found
+    - Detective notebook UI tracks discoveries
 3. **Suspect Interrogation**
 Each has:
+    - character portrait (visual novel style)
+    - dialogue trees
     - motive
     - alibi
     - contradictions
     - suspicious behavior
+    - Present evidence to break statements
 4. **Timeline Analysis**
     - horizontal grid
     - all suspects & victim's movements
     - highlight conflicts
+    - Identify alibi contradictions
 5. **Pattern & Psychological Profiling**
     - motive evolution
     - kill method changes
     - signature behaviors
     - "pattern board" view
+    - Deduce Kira's psychology
 6. **Accusation Phase**
 Player can accuse anytime.
+    
+    Must present evidence chain supporting accusation.
     
     Wrong accusation ends the case.
     
@@ -251,11 +261,13 @@ Each kill adds a new room.
 A logic engine checks:
 
 - Does alibi match kill time?
-- Does CCTV contradict statements?
-- Do two pieces of evidence conflict?
-- Do kill methods reveal patterns?
+## **4.1 Pixel Portraits**
 
-This engine is used in both modes.
+- 64×64 or 128×128 character portraits
+- Emotion variations (neutral, suspicious, confident, nervous)
+- Used for dialogue, suspects, Kira, detective (L-style character)
+- Death Note aesthetic - dramatic, high-contrast
+- Multiple expressions per character for dialogue scenes
 
 ---
 
@@ -270,13 +282,17 @@ This engine is used in both modes.
 ## **4.2 Rooms**
 
 - Simple pixel environments
-- Limited palette (Obra-Dinn inspired optional)
-
 ## **4.3 UI**
 
-- Panels
-- Evidence folders
-- Timeline bars
+- Detective notebook (investigation log)
+- Evidence folders with preview cards
+- Timeline bars showing hour-by-hour movements
+- Detective "deduction board" (connect evidence visually)
+- Kira "kill planning board"
+- Dialogue boxes (visual novel style)
+- Character portraits during discovery/interrogation
+- Internal monologue text (L's analysis commentary)
+- Evidence presentation overlay (Ace Attorney style)
 - Detective "profile map"
 - Kira "kill planning board"
 

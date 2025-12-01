@@ -32,44 +32,54 @@ Build a **minimal viable product** covering a 3-kill case that can be played in 
 ### ✅ Detective Mode
 
 - **Load 3-kill case** from JSON
-- **Crime scene exploration**
-  - 1-2 pixel art rooms per kill (3-6 total)
+- **Crime scene exploration** (Death Note DS style)
+  - 1-2 point-and-click pixel rooms per kill (3-6 total)
   - Clickable evidence hotspots
+  - Internal monologue/deduction text on discovery
 - **Evidence system**
   - Autopsy reports
   - CCTV footage (text descriptions)
   - Timeline reports
   - Suspect statements
   - Physical items
+  - Detective notebook UI
 - **3-4 suspects total** (including Kira)
+  - Character portraits (placeholder or simple pixel art)
   - Each with motive, alibi, profile
+  - Dialogue/interrogation system
 - **Timeline analysis view**
   - Horizontal grid showing suspect movements
   - Highlight conflicts and gaps
+  - Visual contradiction indicators
 - **1 key contradiction per kill**
   - Alibi vs evidence conflicts
   - Timeline impossibilities
+  - Present evidence to expose lies
 - **Final accusation phase**
-  - Select suspect + provide evidence chain
-  - Win/lose conditions
+  - Select suspect + present evidence chain
+  - Ace Attorney-style evidence presentation
+  - Win/lose conditions with feedback
 
 ### ✅ Shared Systems
 
 - **Case engine** (JSON data structure)
-- **Contradiction validator** (logic checks)
-- **Basic UI panels and navigation**
-
----
-
-## What's NOT in the MVP
-
 ### ❌ Not Yet
 
 - Advanced detective AI reactions
 - Media/public influence system
 - Political storylines
-- Branching narrative paths
+- Complex branching narrative paths
 - Multiple endings
+- Evidence planting complexity
+- Deep psychological profiling mechanics
+- Pattern recognition scoring system
+- Full save/load system (beyond JSON export)
+- Sound effects / music
+- Complex animations
+- Multiple case campaigns
+- Fully animated character sprites
+- Voice acting
+- Advanced dialogue branching
 - Evidence planting complexity
 - Psychological profiling depth
 - Pattern recognition scoring
