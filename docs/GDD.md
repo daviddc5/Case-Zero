@@ -230,7 +230,11 @@ Cases generated in Kira Mode can be saved as JSON and loaded by Detective Mode.
 
 ## **3.2 Rooms**
 
-Simple pixel scenes with clickable hotspots:
+Simple pixel scenes with tap-based hotspots (DS-style):
+
+**Dual-Screen Layout:**
+- Top screen: Room visual, evidence description when tapped
+- Bottom screen: Interactive tap zones for hotspots
 
 Examples:
 
@@ -284,15 +288,19 @@ A logic engine checks:
 - Simple pixel environments
 ## **4.3 UI**
 
+- **Nintendo DS dual-screen layout** (authentic Death Note DS style)
+  - Top screen: Information display (portraits, dialogue, evidence details)
+  - Bottom screen: Interactive elements (tap zones, buttons, grids)
 - Detective notebook (investigation log)
 - Evidence folders with preview cards
-- Timeline bars showing hour-by-hour movements
+- Timeline bars with touch-scroll support
 - Detective "deduction board" (connect evidence visually)
 - Kira "kill planning board"
 - Dialogue boxes (visual novel style)
 - Character portraits during discovery/interrogation
 - Internal monologue text (L's analysis commentary)
 - Evidence presentation overlay (Ace Attorney style)
+- Touch-optimized navigation (bottom-thumb reach zone)
 - Detective "profile map"
 - Kira "kill planning board"
 
@@ -307,6 +315,25 @@ A logic engine checks:
 - LocalStorage for saves
 - Node.js optional for a desktop app
 - Pixel art assets
+- **Responsive design** for mobile/tablet support (future)
+
+## **5.2 Platform Targets**
+## **5.3 Scene Structure**
+
+### Scenes:
+
+- Main Menu
+- Kira Planning Scene
+- Alibi Builder
+- Evidence Generator
+- Detective Crime Scene
+- Detective Evidence Room
+- Timeline View (with mobile scroll support)
+- Accusation/Results
+
+**Note:** All scenes designed with responsive breakpoints for future mobile adaptation.or different screens
+- Bottom-thumb navigation
+- Simplified grids for small screens
 
 ---
 

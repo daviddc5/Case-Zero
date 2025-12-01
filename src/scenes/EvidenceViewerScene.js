@@ -14,47 +14,48 @@ export class EvidenceViewerScene extends Phaser.Scene {
         const discoveredEvidence = this.registry.get('discoveredEvidence');
         const currentKill = this.registry.get('currentKillIndex');
 
-        // Header
-        this.add.rectangle(0, 0, width, 80, 0x000000, 0.9).setOrigin(0);
-        this.add.text(20, 20, 'EVIDENCE ROOM', {
-            fontSize: '32px',
+        // Compact header for mobile
+        this.add.rectangle(0, 0, width, 50, 0x000000, 0.9).setOrigin(0);
+        this.add.text(10, 10, 'EVIDENCE ROOM', {
+            fontSize: '18px',
             fontFamily: 'Courier Prime, monospace',
             color: '#00ff00'
         });
         
-        this.add.text(20, 55, `Case: ${engine.currentCase.title} | Kill ${currentKill + 1} of ${engine.currentCase.kills.length}`, {
-            fontSize: '14px',
+        this.add.text(10, 32, `Case: ${engine.currentCase.title} | Kill ${currentKill + 1} of ${engine.currentCase.kills.length}`, {
+            fontSize: '9px',
             fontFamily: 'Courier Prime, monospace',
             color: '#888888'
         });
 
-        // Navigation buttons
-        this.createNavButton(width - 200, 25, 'Crime Scene', 'CrimeSceneScene');
-        this.createNavButton(width - 200, 65, 'Timeline', 'TimelineAnalysisScene');
+        // Right side navigation
+        this.createNavButton(width - 100, 15, '[Crime Scene]', 'CrimeSceneScene');
+        this.createNavButton(width - 100, 35, '[Timeline]', 'TimelineAnalysisScene');
 
-        // Evidence list
-        let yPos = 120;
+        // Evidence list - scrollable area
+        let yPos = 65;
         
         if (discoveredEvidence.length === 0) {
             this.add.text(width / 2, height / 2, 'No evidence discovered yet.\nVisit the Crime Scene to investigate.', {
-                fontSize: '18px',
+                fontSize: '14px',
                 fontFamily: 'Courier Prime, monospace',
                 color: '#666666',
                 align: 'center'
             }).setOrigin(0.5);
         } else {
-            this.add.text(20, yPos, `Evidence Found: ${discoveredEvidence.length}/${engine.currentCase.evidence.length}`, {
-                fontSize: '16px',
+            this.add.text(10, yPos, `Evidence Found: ${discoveredEvidence.length}/${engine.currentCase.evidence.length}`, {
+                fontSize: '12px',
                 fontFamily: 'Courier Prime, monospace',
                 color: '#ffff00'
             });
-            yPos += 40;
+            yPos += 30;
 
+            // Compact cards for mobile
             discoveredEvidence.forEach((evidenceId, index) => {
                 const evidence = engine.getEvidence(evidenceId);
                 if (evidence) {
-                    this.createEvidenceCard(20, yPos, evidence, index);
-                    yPos += 120;
+                    this.createEvidenceCard(10, yPos, evidence, index, width);
+                    yPos += 70;
                 }
             });
         }
@@ -63,47 +64,40 @@ export class EvidenceViewerScene extends Phaser.Scene {
         this.createBottomNav(width, height);
     }
 
-    createEvidenceCard(x, y, evidence, index) {
-        const card = this.add.rectangle(x, y, 1240, 100, 0x111111, 0.9).setOrigin(0);
-        card.setStrokeStyle(1, 0x00ff00);
+    createEvidenceCard(x, y, evidence, index, screenWidth) {
+        const cardWidth = screenWidth - 20;
+        const card = this.add.rectangle(x, y, cardWidth, 60, 0x111111, 0.9).setOrigin(0);
+        card.setStrokeStyle(2, 0x00ff00);
 
-        // Evidence number
-        this.add.text(x + 10, y + 10, `[${index + 1}]`, {
-            fontSize: '14px',
+        // Evidence number and type badge on same line
+        this.add.text(x + 8, y + 8, `[${index + 1}]`, {
+            fontSize: '11px',
             fontFamily: 'Courier Prime, monospace',
             color: '#00ff00'
         });
 
-        // Type badge
+        // Type badge - compact
         const typeColor = this.getTypeColor(evidence.type);
-        this.add.rectangle(x + 60, y + 20, 100, 25, parseInt(typeColor.replace('#', '0x'), 16), 0.3).setOrigin(0);
-        this.add.text(x + 110, y + 32, evidence.type.toUpperCase(), {
-            fontSize: '12px',
+        this.add.rectangle(x + 45, y + 12, 80, 18, parseInt(typeColor.replace('#', '0x'), 16), 0.3).setOrigin(0);
+        this.add.text(x + 85, y + 21, evidence.type.toUpperCase(), {
+            fontSize: '9px',
             fontFamily: 'Courier Prime, monospace',
             color: typeColor
         }).setOrigin(0.5);
 
-        // Name
-        this.add.text(x + 180, y + 15, evidence.name, {
-            fontSize: '18px',
+        // Name - prominent
+        this.add.text(x + 8, y + 28, evidence.name, {
+            fontSize: '13px',
             fontFamily: 'Courier Prime, monospace',
             color: '#ffffff'
         });
 
-        // Description
-        this.add.text(x + 180, y + 45, evidence.description, {
-            fontSize: '14px',
-            fontFamily: 'Courier Prime, monospace',
-            color: '#cccccc',
-            wordWrap: { width: 1000 }
-        });
-
-        // Location
-        this.add.text(x + 10, y + 80, `📍 ${evidence.location}`, {
-            fontSize: '12px',
+        // Location - bottom right corner
+        this.add.text(x + cardWidth - 8, y + 50, `📍 ${evidence.location}`, {
+            fontSize: '9px',
             fontFamily: 'Courier Prime, monospace',
             color: '#888888'
-        });
+        }).setOrigin(1, 0.5);
     }
 
     getTypeColor(type) {
@@ -119,38 +113,40 @@ export class EvidenceViewerScene extends Phaser.Scene {
     }
 
     createNavButton(x, y, label, sceneName) {
-        const btn = this.add.text(x, y, `[${label}]`, {
-            fontSize: '14px',
+        const btn = this.add.text(x, y, label, {
+            fontSize: '10px',
             fontFamily: 'Courier Prime, monospace',
             color: '#00ff00'
-        }).setInteractive({ useHandCursor: true });
+        }).setOrigin(1, 0).setInteractive({ useHandCursor: true });
 
-        btn.on('pointerover', () => btn.setColor('#ffff00'));
-        btn.on('pointerout', () => btn.setColor('#00ff00'));
-        btn.on('pointerdown', () => this.scene.start(sceneName));
+        btn.on('pointerdown', () => {
+            btn.setColor('#ffff00');
+            this.scene.start(sceneName);
+        });
     }
-
     createBottomNav(width, height) {
-        const navBg = this.add.rectangle(0, height - 60, width, 60, 0x000000, 0.9).setOrigin(0);
+        const navBg = this.add.rectangle(0, height - 50, width, 50, 0x000000, 0.9).setOrigin(0);
         
-        const backBtn = this.add.text(20, height - 40, '[← Main Menu]', {
-            fontSize: '16px',
+        const backBtn = this.add.text(10, height - 30, '[← Main Menu]', {
+            fontSize: '11px',
             fontFamily: 'Courier Prime, monospace',
             color: '#888888'
-        }).setInteractive({ useHandCursor: true });
+        }).setOrigin(0, 0.5).setInteractive({ useHandCursor: true });
         
-        backBtn.on('pointerover', () => backBtn.setColor('#ffffff'));
-        backBtn.on('pointerout', () => backBtn.setColor('#888888'));
-        backBtn.on('pointerdown', () => this.scene.start('MainMenuScene'));
+        backBtn.on('pointerdown', () => {
+            backBtn.setColor('#ffffff');
+            this.scene.start('MainMenuScene');
+        });
 
-        const accuseBtn = this.add.text(width - 180, height - 40, '[Make Accusation →]', {
-            fontSize: '16px',
+        const accuseBtn = this.add.text(width - 10, height - 30, '[Make Accusation →]', {
+            fontSize: '12px',
             fontFamily: 'Courier Prime, monospace',
             color: '#ff0000'
-        }).setInteractive({ useHandCursor: true });
+        }).setOrigin(1, 0.5).setInteractive({ useHandCursor: true });
         
-        accuseBtn.on('pointerover', () => accuseBtn.setColor('#ffff00'));
-        accuseBtn.on('pointerout', () => accuseBtn.setColor('#ff0000'));
-        accuseBtn.on('pointerdown', () => this.scene.start('AccusationScene'));
+        accuseBtn.on('pointerdown', () => {
+            accuseBtn.setColor('#ffff00');
+            this.scene.start('AccusationScene');
+        });
     }
 }

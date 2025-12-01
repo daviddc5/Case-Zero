@@ -3,15 +3,16 @@ import { MainMenuScene } from './scenes/MainMenuScene.js';
 import { CaseLoadingScene } from './scenes/CaseLoadingScene.js';
 import { EvidenceViewerScene } from './scenes/EvidenceViewerScene.js';
 import { CrimeSceneScene } from './scenes/CrimeSceneScene.js';
+import { TimelineAnalysisScene } from './scenes/TimelineAnalysisScene.js';
 
-// Phaser game configuration
+// Phaser game configuration - Mobile landscape (perfect for detective games)
 const config = {
     type: Phaser.AUTO,
-    width: 1280,
-    height: 720,
+    width: 812,   // iPhone landscape width (most phones 812-844px)
+    height: 375,  // iPhone landscape height
     parent: 'game-container',
-    backgroundColor: '#2d2d2d',
-    scene: [MainMenuScene, CaseLoadingScene, EvidenceViewerScene, CrimeSceneScene],
+    backgroundColor: '#000000',
+    scene: [MainMenuScene, CaseLoadingScene, EvidenceViewerScene, CrimeSceneScene, TimelineAnalysisScene],
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH

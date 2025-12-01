@@ -32,33 +32,43 @@ Build a **minimal viable product** covering a 3-kill case that can be played in 
 ### ✅ Detective Mode
 
 - **Load 3-kill case** from JSON
-- **Crime scene exploration** (Death Note DS style)
-  - 1-2 point-and-click pixel rooms per kill (3-6 total)
-  - Clickable evidence hotspots
-  - Internal monologue/deduction text on discovery
+- **Crime scene exploration** (Death Note DS dual-screen style)
+  - Top screen: Room visual, evidence details, internal monologue
+  - Bottom screen: Interactive tap zones for hotspots, navigation buttons
+  - 1-2 point-and-click rooms per kill (3-6 total)
 - **Evidence system**
   - Autopsy reports
   - CCTV footage (text descriptions)
   - Timeline reports
   - Suspect statements
   - Physical items
-  - Detective notebook UI
+  - Detective notebook UI (touch-scrollable)
 - **3-4 suspects total** (including Kira)
-  - Character portraits (placeholder or simple pixel art)
+  - Character portraits on top screen
   - Each with motive, alibi, profile
-  - Dialogue/interrogation system
+  - Touch-based dialogue/interrogation system
 - **Timeline analysis view**
-  - Horizontal grid showing suspect movements
-  - Highlight conflicts and gaps
+  - Top screen: Selected suspect details
+  - Bottom screen: Scrollable hour-by-hour grid (swipe to scroll)
+  - Tap cells for details
   - Visual contradiction indicators
 - **1 key contradiction per kill**
   - Alibi vs evidence conflicts
   - Timeline impossibilities
-  - Present evidence to expose lies
+  - Tap evidence to present
 - **Final accusation phase**
-  - Select suspect + present evidence chain
-  - Ace Attorney-style evidence presentation
+  - Top screen: Suspect portrait + profile
+  - Bottom screen: Evidence selection, accusation button
+  - Touch-based evidence presentation
   - Win/lose conditions with feedback
+
+### ✅ Mobile-First Design
+- **360×1280 portrait layout** (dual screens: 360×640 each)
+- Touch event handlers (tap, press, swipe)
+- Larger fonts (16-24px)
+- 44×44px minimum tap targets
+- Bottom-thumb navigation zone
+- Works on desktop in narrow window
 
 ### ✅ Shared Systems
 
@@ -80,6 +90,8 @@ Build a **minimal viable product** covering a 3-kill case that can be played in 
 - Fully animated character sprites
 - Voice acting
 - Advanced dialogue branching
+- Landscape mode (portrait-first for MVP)
+- Desktop-wide layouts (narrow window for MVP)
 - Evidence planting complexity
 - Psychological profiling depth
 - Pattern recognition scoring

@@ -1,6 +1,6 @@
 /**
  * CrimeSceneScene - Interactive crime scene investigation
- * Click on hotspots to discover evidence
+ * Mobile landscape optimized (812×375)
  */
 
 export class CrimeSceneScene extends Phaser.Scene {
@@ -18,59 +18,70 @@ export class CrimeSceneScene extends Phaser.Scene {
         
         const currentKill = engine.currentCase.kills[currentKillIndex];
 
-        // Header
-        this.add.rectangle(0, 0, width, 80, 0x000000, 0.9).setOrigin(0);
-        this.add.text(20, 20, `CRIME SCENE: ${currentKill.victim.name}`, {
-            fontSize: '28px',
+        // Compact header for mobile
+        this.add.rectangle(0, 0, width, 50, 0x000000, 0.9).setOrigin(0);
+        this.add.text(10, 10, `CRIME SCENE: ${currentKill.victim.name}`, {
+            fontSize: '16px',
             fontFamily: 'Courier Prime, monospace',
             color: '#ff0000'
         });
         
-        this.add.text(20, 55, `Location: ${currentKill.victim.location} | Click hotspots to investigate`, {
-            fontSize: '14px',
+        this.add.text(10, 30, `Location: ${currentKill.victim.location} | Click hotspots to investigate`, {
+            fontSize: '10px',
             fontFamily: 'Courier Prime, monospace',
             color: '#888888'
         });
 
-        // Create room visualization
+        // Create room visualization (full width)
         this.createRoom(currentKill, discoveredEvidence);
-
-        // Evidence discovered panel (right side)
-        this.createEvidencePanel(width, currentKill, discoveredEvidence);
 
         // Bottom navigation
         this.createBottomNav(width, height, currentKillIndex, engine.currentCase.kills.length);
     }
 
     createRoom(kill, discoveredEvidence) {
-        const roomX = 100;
-        const roomY = 120;
-        const roomWidth = 700;
-        const roomHeight = 500;
+        const { width, height } = this.cameras.main;
+        const roomX = 10;
+        const roomY = 60;
+        const roomWidth = width - 20;
+        const roomHeight = height - 120;
 
-        // Room background
-        const room = this.add.rectangle(roomX, roomY, roomWidth, roomHeight, 0x1a1a1a, 0.8).setOrigin(0);
-        room.setStrokeStyle(2, 0x444444);
+        // Room background with visible outline
+        const room = this.add.rectangle(roomX, roomY, roomWidth, roomHeight, 0x1a1a1a).setOrigin(0);
+        room.setStrokeStyle(3, 0x00ff00);
 
+        // Room label in corner
         this.add.text(roomX + 10, roomY + 10, `[${kill.room.toUpperCase()}]`, {
-            fontSize: '14px',
+            fontSize: '12px',
             fontFamily: 'Courier Prime, monospace',
-            color: '#666666'
+            color: '#00ff00',
+            backgroundColor: '#000000',
+            padding: { x: 6, y: 3 }
         });
 
         // Get evidence for this kill
         const killEvidence = kill.evidenceIds.map(id => this.registry.get('caseEngine').getEvidence(id));
 
+        // Evidence count
+        const discoveredCount = killEvidence.filter(e => discoveredEvidence.includes(e.id)).length;
+        this.add.text(roomX + roomWidth - 10, roomY + 10, `${discoveredCount}/${killEvidence.length}`, {
+            fontSize: '12px',
+            fontFamily: 'Courier Prime, monospace',
+            color: '#ffff00',
+            backgroundColor: '#000000',
+            padding: { x: 6, y: 3 }
+        }).setOrigin(1, 0);
+
         // Create hotspots for each piece of evidence
-        const hotspotPositions = this.generateHotspotPositions(killEvidence.length, roomWidth, roomHeight);
+        const hotspotPositions = this.generateHotspotPositions(killEvidence.length, roomWidth - 40, roomHeight - 40);
         
         killEvidence.forEach((evidence, index) => {
             const isDiscovered = discoveredEvidence.includes(evidence.id);
             const pos = hotspotPositions[index];
             
             this.createHotspot(
-                roomX + pos.x,
-                roomY + pos.y,
+                roomX + 20 + pos.x,
+                roomY + 30 + pos.y,
                 evidence,
                 isDiscovered
             );
@@ -78,41 +89,40 @@ export class CrimeSceneScene extends Phaser.Scene {
     }
 
     generateHotspotPositions(count, roomWidth, roomHeight) {
-        // Generate non-overlapping positions for hotspots
+        // Fixed positions so hotspots don't move when scene restarts
         const positions = [];
-        const padding = 80;
-        const minDistance = 120;
+        const padding = 40;
+        const cols = Math.ceil(Math.sqrt(count));
+        const rows = Math.ceil(count / cols);
+        
+        const spacingX = (roomWidth - padding * 2) / (cols + 1);
+        const spacingY = (roomHeight - padding * 2) / (rows + 1);
 
         for (let i = 0; i < count; i++) {
-            let attempts = 0;
-            let pos;
+            const col = i % cols;
+            const row = Math.floor(i / cols);
             
-            do {
-                pos = {
-                    x: padding + Math.random() * (roomWidth - padding * 2),
-                    y: padding + Math.random() * (roomHeight - padding * 2)
-                };
-                attempts++;
-            } while (attempts < 50 && positions.some(p => 
-                Math.hypot(p.x - pos.x, p.y - pos.y) < minDistance
-            ));
+            // Add slight randomness but seeded consistently
+            const offsetX = (Math.sin(i * 123.456) * 20);
+            const offsetY = (Math.cos(i * 78.901) * 20);
             
-            positions.push(pos);
+            positions.push({
+                x: padding + (col + 1) * spacingX + offsetX,
+                y: padding + (row + 1) * spacingY + offsetY
+            });
         }
 
         return positions;
     }
 
     createHotspot(x, y, evidence, isDiscovered) {
-        const size = 60;
+        const size = 50;
         const color = isDiscovered ? 0x00aa00 : 0xffaa00;
         const alpha = isDiscovered ? 0.3 : 0.8;
 
-        // Hotspot circle
         const hotspot = this.add.circle(x, y, size / 2, color, alpha);
-        hotspot.setStrokeStyle(2, color);
+        hotspot.setStrokeStyle(3, color);
         
-        // Pulsing animation for undiscovered evidence
         if (!isDiscovered) {
             this.tweens.add({
                 targets: hotspot,
@@ -125,37 +135,21 @@ export class CrimeSceneScene extends Phaser.Scene {
             });
 
             hotspot.setInteractive({ useHandCursor: true });
-            
-            hotspot.on('pointerover', () => {
-                hotspot.setScale(1.3);
-            });
-            
-            hotspot.on('pointerout', () => {
-                hotspot.setScale(1);
-            });
-
             hotspot.on('pointerdown', () => {
                 this.discoverEvidence(evidence, hotspot);
             });
         }
 
-        // Label
         const labelText = isDiscovered ? '✓' : '?';
         const label = this.add.text(x, y, labelText, {
-            fontSize: isDiscovered ? '24px' : '32px',
+            fontSize: isDiscovered ? '20px' : '28px',
             fontFamily: 'Courier Prime, monospace',
-            color: isDiscovered ? '#00ff00' : '#ffff00'
+            color: isDiscovered ? '#00ff00' : '#ffff00',
+            fontStyle: 'bold'
         }).setOrigin(0.5);
 
-        // Tooltip on hover (for undiscovered)
         if (!isDiscovered) {
             label.setInteractive({ useHandCursor: true });
-            label.on('pointerover', () => {
-                this.showTooltip(x, y - 50, evidence.type);
-            });
-            label.on('pointerout', () => {
-                this.hideTooltip();
-            });
             label.on('pointerdown', () => {
                 this.discoverEvidence(evidence, hotspot);
             });
@@ -164,33 +158,12 @@ export class CrimeSceneScene extends Phaser.Scene {
         this.hotspots.push({ hotspot, label, evidence });
     }
 
-    showTooltip(x, y, type) {
-        if (this.tooltip) this.tooltip.destroy();
-        
-        this.tooltip = this.add.text(x, y, `[${type.toUpperCase()}]`, {
-            fontSize: '12px',
-            fontFamily: 'Courier Prime, monospace',
-            color: '#ffff00',
-            backgroundColor: '#000000',
-            padding: { x: 8, y: 4 }
-        }).setOrigin(0.5);
-    }
-
-    hideTooltip() {
-        if (this.tooltip) {
-            this.tooltip.destroy();
-            this.tooltip = null;
-        }
-    }
-
     discoverEvidence(evidence, hotspot) {
-        // Add to discovered evidence
         const discoveredEvidence = this.registry.get('discoveredEvidence');
         if (!discoveredEvidence.includes(evidence.id)) {
             discoveredEvidence.push(evidence.id);
             this.registry.set('discoveredEvidence', discoveredEvidence);
 
-            // Visual feedback
             this.tweens.killTweensOf(hotspot);
             
             this.tweens.add({
@@ -204,10 +177,8 @@ export class CrimeSceneScene extends Phaser.Scene {
                 }
             });
 
-            // Show discovery notification
             this.showDiscoveryNotification(evidence);
 
-            // Refresh the scene
             this.time.delayedCall(1500, () => {
                 this.scene.restart();
             });
@@ -219,32 +190,31 @@ export class CrimeSceneScene extends Phaser.Scene {
         
         const notification = this.add.container(width / 2, height / 2);
         
-        const bg = this.add.rectangle(0, 0, 600, 200, 0x000000, 0.95);
+        const bg = this.add.rectangle(0, 0, width - 40, 150, 0x000000, 0.95);
         bg.setStrokeStyle(3, 0x00ff00);
         
-        const title = this.add.text(0, -60, 'EVIDENCE DISCOVERED', {
-            fontSize: '24px',
+        const title = this.add.text(0, -50, 'EVIDENCE DISCOVERED', {
+            fontSize: '16px',
             fontFamily: 'Courier Prime, monospace',
             color: '#00ff00'
         }).setOrigin(0.5);
         
         const name = this.add.text(0, -20, evidence.name, {
-            fontSize: '18px',
+            fontSize: '14px',
             fontFamily: 'Courier Prime, monospace',
             color: '#ffffff'
         }).setOrigin(0.5);
         
-        const desc = this.add.text(0, 20, evidence.description, {
-            fontSize: '14px',
+        const desc = this.add.text(0, 10, evidence.description, {
+            fontSize: '11px',
             fontFamily: 'Courier Prime, monospace',
             color: '#cccccc',
-            wordWrap: { width: 550 },
+            wordWrap: { width: width - 80 },
             align: 'center'
         }).setOrigin(0.5);
 
         notification.add([bg, title, name, desc]);
         
-        // Fade in
         notification.setAlpha(0);
         this.tweens.add({
             targets: notification,
@@ -253,125 +223,71 @@ export class CrimeSceneScene extends Phaser.Scene {
         });
     }
 
-    createEvidencePanel(screenWidth, kill, discoveredEvidence) {
-        const panelX = 820;
-        const panelY = 120;
-        const panelWidth = 440;
-        const panelHeight = 500;
-
-        // Panel background
-        this.add.rectangle(panelX, panelY, panelWidth, panelHeight, 0x0a0a0a, 0.9).setOrigin(0);
-        this.add.rectangle(panelX, panelY, panelWidth, panelHeight).setOrigin(0).setStrokeStyle(2, 0x00ff00);
-
-        this.add.text(panelX + 15, panelY + 15, 'EVIDENCE LOG', {
-            fontSize: '16px',
-            fontFamily: 'Courier Prime, monospace',
-            color: '#00ff00'
-        });
-
-        // List discovered evidence for this kill
-        const killEvidenceIds = kill.evidenceIds;
-        const discoveredHere = killEvidenceIds.filter(id => discoveredEvidence.includes(id));
+    createBottomNav(width, height, currentKillIndex, totalKills) {
+        const navBg = this.add.rectangle(0, height - 50, width, 50, 0x000000, 0.9).setOrigin(0);
         
-        this.add.text(panelX + 15, panelY + 50, `Found: ${discoveredHere.length}/${killEvidenceIds.length}`, {
-            fontSize: '14px',
-            fontFamily: 'Courier Prime, monospace',
-            color: '#ffff00'
-        });
-
-        let yPos = panelY + 85;
-        
-        killEvidenceIds.forEach(evidenceId => {
-            const evidence = this.registry.get('caseEngine').getEvidence(evidenceId);
-            const isDiscovered = discoveredEvidence.includes(evidenceId);
-            
-            const status = isDiscovered ? '✓' : '?';
-            const color = isDiscovered ? '#00ff00' : '#444444';
-            const name = isDiscovered ? evidence.name : '???';
-            
-            this.add.text(panelX + 15, yPos, `${status} ${name}`, {
-                fontSize: '12px',
-                fontFamily: 'Courier Prime, monospace',
-                color: color,
-                wordWrap: { width: panelWidth - 30 }
-            });
-            
-            yPos += 30;
-        });
-
-        // Instructions
-        this.add.text(panelX + 15, panelHeight + panelY - 40, 'Click glowing hotspots to investigate', {
+        // Left: Back button
+        const backBtn = this.add.text(10, height - 30, '[← Evidence Room]', {
             fontSize: '11px',
             fontFamily: 'Courier Prime, monospace',
-            color: '#666666',
-            wordWrap: { width: panelWidth - 30 }
-        });
-    }
-
-    createBottomNav(width, height, currentKillIndex, totalKills) {
-        const navBg = this.add.rectangle(0, height - 60, width, 60, 0x000000, 0.9).setOrigin(0);
-        
-        // Back to Evidence Room
-        const backBtn = this.add.text(20, height - 40, '[← Evidence Room]', {
-            fontSize: '16px',
-            fontFamily: 'Courier Prime, monospace',
             color: '#888888'
-        }).setInteractive({ useHandCursor: true });
+        }).setOrigin(0, 0.5).setInteractive({ useHandCursor: true });
         
-        backBtn.on('pointerover', () => backBtn.setColor('#ffffff'));
-        backBtn.on('pointerout', () => backBtn.setColor('#888888'));
-        backBtn.on('pointerdown', () => this.scene.start('EvidenceViewerScene'));
+        backBtn.on('pointerdown', () => {
+            backBtn.setColor('#ffffff');
+            this.scene.start('EvidenceViewerScene');
+        });
 
-        // Kill navigation (if multiple kills)
+        // Center: Scene navigation
         if (totalKills > 1) {
-            const killText = this.add.text(width / 2, height - 40, `Crime Scene ${currentKillIndex + 1} / ${totalKills}`, {
-                fontSize: '14px',
-                fontFamily: 'Courier Prime, monospace',
-                color: '#666666'
-            }).setOrigin(0.5);
-
-            // Previous kill button
+            // Previous kill button (left of center)
             if (currentKillIndex > 0) {
-                const prevBtn = this.add.text(width / 2 - 150, height - 40, '[< Prev]', {
-                    fontSize: '14px',
+                const prevBtn = this.add.text(width / 2 - 100, height - 30, '[< Prev]', {
+                    fontSize: '11px',
                     fontFamily: 'Courier Prime, monospace',
                     color: '#00ff00'
-                }).setInteractive({ useHandCursor: true });
+                }).setOrigin(0, 0.5).setInteractive({ useHandCursor: true });
                 
-                prevBtn.on('pointerover', () => prevBtn.setColor('#ffff00'));
-                prevBtn.on('pointerout', () => prevBtn.setColor('#00ff00'));
                 prevBtn.on('pointerdown', () => {
+                    prevBtn.setColor('#ffff00');
                     this.registry.set('currentKillIndex', currentKillIndex - 1);
                     this.scene.restart();
                 });
             }
 
-            // Next kill button
+            // Scene counter (center)
+            const killText = this.add.text(width / 2, height - 30, `Crime Scene ${currentKillIndex + 1}/${totalKills}`, {
+                fontSize: '10px',
+                fontFamily: 'Courier Prime, monospace',
+                color: '#666666'
+            }).setOrigin(0.5);
+
+            // Next kill button (right of center)
             if (currentKillIndex < totalKills - 1) {
-                const nextBtn = this.add.text(width / 2 + 150, height - 40, '[Next >]', {
-                    fontSize: '14px',
+                const nextBtn = this.add.text(width / 2 + 100, height - 30, '[Next >]', {
+                    fontSize: '11px',
                     fontFamily: 'Courier Prime, monospace',
                     color: '#00ff00'
-                }).setInteractive({ useHandCursor: true }).setOrigin(1, 0.5);
+                }).setOrigin(1, 0.5).setInteractive({ useHandCursor: true });
                 
-                nextBtn.on('pointerover', () => nextBtn.setColor('#ffff00'));
-                nextBtn.on('pointerout', () => nextBtn.setColor('#00ff00'));
                 nextBtn.on('pointerdown', () => {
+                    nextBtn.setColor('#ffff00');
                     this.registry.set('currentKillIndex', currentKillIndex + 1);
                     this.scene.restart();
                 });
             }
         }
 
-        // Timeline button
-        const timelineBtn = this.add.text(width - 20, height - 40, '[Timeline Analysis →]', {
-            fontSize: '16px',
+        // Right: Timeline button
+        const timelineBtn = this.add.text(width - 10, height - 30, '[Timeline →]', {
+            fontSize: '11px',
             fontFamily: 'Courier Prime, monospace',
             color: '#00aaff'
         }).setOrigin(1, 0.5).setInteractive({ useHandCursor: true });
         
-        timelineBtn.on('pointerover', () => timelineBtn.setColor('#ffff00'));
-        timelineBtn.on('pointerout', () => timelineBtn.setColor('#00aaff'));
-        timelineBtn.on('pointerdown', () => this.scene.start('TimelineAnalysisScene'));
+        timelineBtn.on('pointerdown', () => {
+            timelineBtn.setColor('#ffff00');
+            this.scene.start('TimelineAnalysisScene');
+        });
     }
 }
