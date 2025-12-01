@@ -25,6 +25,18 @@ export class TimelineAnalysisScene extends Phaser.Scene {
             fontFamily: 'Courier Prime, monospace',
             color: '#00aaff'
         });
+
+        // Help button (top right)
+        const helpBtn = this.add.text(width - 10, 10, '[?]', {
+            fontSize: '16px',
+            fontFamily: 'Courier Prime, monospace',
+            color: '#888888'
+        }).setOrigin(1, 0).setInteractive({ useHandCursor: true });
+        
+        helpBtn.on('pointerdown', () => {
+            helpBtn.setColor('#ffff00');
+            this.scene.start('InfoScene');
+        });
         
         this.add.text(10, 32, `${currentKill.victim.name} (${currentKill.victim.timeOfDeath}:00)`, {
             fontSize: '10px',

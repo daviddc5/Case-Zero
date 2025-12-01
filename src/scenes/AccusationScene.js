@@ -24,10 +24,14 @@ export class AccusationScene extends Phaser.Scene {
             color: '#ff0000'
         });
         
-        this.add.text(10, 32, 'Select the suspect you believe is the cyber-vigilante', {
+        const wrongCount = this.registry.get('wrongAccusations') || 0;
+        const maxAccusations = this.registry.get('maxAccusations');
+        const attemptsLeft = maxAccusations - wrongCount;
+        
+        this.add.text(10, 32, `Select the suspect you believe is the killer (${attemptsLeft} wrong guesses allowed)`, {
             fontSize: '10px',
             fontFamily: 'Courier Prime, monospace',
-            color: '#888888'
+            color: attemptsLeft <= 1 ? '#ff6666' : '#888888'
         });
 
         // Suspect selection area
@@ -70,10 +74,11 @@ export class AccusationScene extends Phaser.Scene {
             color: '#ffffff'
         });
 
-        // Contradiction count
-        const contradictions = validator.findContradictionsForSuspect(suspect.id);
-        const contraColor = contradictions.length > 0 ? '#ff0000' : '#666666';
-        this.add.text(x + cardWidth - 10, y + 12, `${contradictions.length} contradictions`, {
+        // Contradiction count from case data
+        const engine = this.registry.get('caseEngine');
+        const caseContradictions = engine.currentCase.contradictions.filter(c => c.suspectId === suspect.id);
+        const contraColor = caseContradictions.length > 0 ? '#ff0000' : '#666666';
+        this.add.text(x + cardWidth - 10, y + 12, `${caseContradictions.length} contradictions`, {
             fontSize: '10px',
             fontFamily: 'Courier Prime, monospace',
             color: contraColor
@@ -132,6 +137,12 @@ export class AccusationScene extends Phaser.Scene {
     showResult(suspect, result) {
         const { width, height } = this.cameras.main;
 
+        // Track wrong accusations
+        if (!result.success) {
+            const wrongCount = this.registry.get('wrongAccusations') || 0;
+            this.registry.set('wrongAccusations', wrongCount + 1);
+        }
+
         // Overlay
         const overlay = this.add.rectangle(0, 0, width, height, 0x000000, 0.95).setOrigin(0);
         overlay.setDepth(1000);
@@ -141,35 +152,52 @@ export class AccusationScene extends Phaser.Scene {
 
         if (result.success) {
             // SUCCESS
-            const bg = this.add.rectangle(0, 0, width - 40, 200, 0x003300, 0.9);
+            const wrongCount = this.registry.get('wrongAccusations');
+            const bg = this.add.rectangle(0, 0, width - 40, 240, 0x003300, 0.9);
             bg.setStrokeStyle(4, 0x00ff00);
 
-            const title = this.add.text(0, -70, 'CASE SOLVED', {
+            const title = this.add.text(0, -95, 'CASE SOLVED', {
                 fontSize: '24px',
                 fontFamily: 'DeathNote, serif',
                 color: '#00ff00'
             }).setOrigin(0.5);
 
-            const name = this.add.text(0, -30, `${suspect.name} is the hacker!`, {
+            const name = this.add.text(0, -55, `${suspect.name} is the hacker!`, {
                 fontSize: '16px',
                 fontFamily: 'Courier Prime, monospace',
                 color: '#ffffff'
             }).setOrigin(0.5);
 
-            const evidence = this.add.text(0, 0, `Key contradictions found: ${result.contradictions.length}`, {
+            const evidence = this.add.text(0, -25, `Key contradictions found: ${result.contradictions.length}`, {
                 fontSize: '12px',
                 fontFamily: 'Courier Prime, monospace',
                 color: '#00ff00'
             }).setOrigin(0.5);
 
-            const quote = this.add.text(0, 30, '"Justice has been served."', {
+            // Performance stats
+            const performanceColor = wrongCount === 0 ? '#00ff00' : wrongCount === 1 ? '#ffaa00' : '#ff6666';
+            const performanceText = wrongCount === 0 ? 'Perfect!' : wrongCount === 1 ? 'Good' : 'Acceptable';
+            
+            const stats = this.add.text(0, 5, `Wrong accusations: ${wrongCount}`, {
+                fontSize: '11px',
+                fontFamily: 'Courier Prime, monospace',
+                color: performanceColor
+            }).setOrigin(0.5);
+
+            const grade = this.add.text(0, 25, `Detective Grade: ${performanceText}`, {
+                fontSize: '11px',
+                fontFamily: 'Courier Prime, monospace',
+                color: performanceColor
+            }).setOrigin(0.5);
+
+            const quote = this.add.text(0, 55, '"Justice has been served."', {
                 fontSize: '11px',
                 fontFamily: 'Courier Prime, monospace',
                 color: '#00aaff',
                 fontStyle: 'italic'
             }).setOrigin(0.5);
 
-            const continueBtn = this.add.text(0, 70, '[Return to Menu]', {
+            const continueBtn = this.add.text(0, 90, '[Return to Menu]', {
                 fontSize: '12px',
                 fontFamily: 'Courier Prime, monospace',
                 color: '#ffff00',
@@ -181,52 +209,110 @@ export class AccusationScene extends Phaser.Scene {
                 this.scene.start('MainMenuScene');
             });
 
-            resultContainer.add([bg, title, name, evidence, quote, continueBtn]);
+            resultContainer.add([bg, title, name, evidence, stats, grade, quote, continueBtn]);
         } else {
-            // FAILURE
-            const bg = this.add.rectangle(0, 0, width - 40, 200, 0x330000, 0.9);
-            bg.setStrokeStyle(4, 0xff0000);
+            // FAILURE - check if game over
+            const wrongCount = this.registry.get('wrongAccusations');
+            const maxAccusations = this.registry.get('maxAccusations');
+            const attemptsLeft = maxAccusations - wrongCount;
 
-            const title = this.add.text(0, -70, 'INCORRECT', {
-                fontSize: '24px',
-                fontFamily: 'DeathNote, serif',
-                color: '#ff0000'
-            }).setOrigin(0.5);
+            if (attemptsLeft <= 0) {
+                // GAME OVER
+                const bg = this.add.rectangle(0, 0, width - 40, 220, 0x1a0000, 0.95);
+                bg.setStrokeStyle(4, 0xff0000);
 
-            const name = this.add.text(0, -30, `${suspect.name} is not the hacker.`, {
-                fontSize: '16px',
-                fontFamily: 'Courier Prime, monospace',
-                color: '#ffffff'
-            }).setOrigin(0.5);
+                const title = this.add.text(0, -80, 'INVESTIGATION FAILED', {
+                    fontSize: '22px',
+                    fontFamily: 'DeathNote, serif',
+                    color: '#ff0000'
+                }).setOrigin(0.5);
 
-            const reason = this.add.text(0, 0, result.reason, {
-                fontSize: '11px',
-                fontFamily: 'Courier Prime, monospace',
-                color: '#ffaa00',
-                wordWrap: { width: width - 80 },
-                align: 'center'
-            }).setOrigin(0.5);
+                const message = this.add.text(0, -35, 'Too many wrong accusations.\nThe killer has escaped.', {
+                    fontSize: '14px',
+                    fontFamily: 'Courier Prime, monospace',
+                    color: '#ffffff',
+                    align: 'center'
+                }).setOrigin(0.5);
 
-            const quote = this.add.text(0, 40, '"Investigate more carefully..."', {
-                fontSize: '11px',
-                fontFamily: 'Courier Prime, monospace',
-                color: '#00aaff',
-                fontStyle: 'italic'
-            }).setOrigin(0.5);
+                const stats = this.add.text(0, 15, `Wrong accusations: ${wrongCount}/${maxAccusations}`, {
+                    fontSize: '11px',
+                    fontFamily: 'Courier Prime, monospace',
+                    color: '#ff6666'
+                }).setOrigin(0.5);
 
-            const retryBtn = this.add.text(0, 70, '[Continue Investigation]', {
-                fontSize: '12px',
-                fontFamily: 'Courier Prime, monospace',
-                color: '#ffff00',
-                backgroundColor: '#330000',
-                padding: { x: 10, y: 5 }
-            }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+                const quote = this.add.text(0, 45, '"A detective only gets so many chances..."', {
+                    fontSize: '10px',
+                    fontFamily: 'Courier Prime, monospace',
+                    color: '#888888',
+                    fontStyle: 'italic'
+                }).setOrigin(0.5);
 
-            retryBtn.on('pointerdown', () => {
-                this.scene.restart();
-            });
+                const restartBtn = this.add.text(0, 80, '[Restart Case]', {
+                    fontSize: '12px',
+                    fontFamily: 'Courier Prime, monospace',
+                    color: '#ffff00',
+                    backgroundColor: '#330000',
+                    padding: { x: 10, y: 5 }
+                }).setOrigin(0.5).setInteractive({ useHandCursor: true });
 
-            resultContainer.add([bg, title, name, reason, quote, retryBtn]);
+                restartBtn.on('pointerdown', () => {
+                    this.scene.start('CaseLoadingScene');
+                });
+
+                resultContainer.add([bg, title, message, stats, quote, restartBtn]);
+            } else {
+                // WRONG BUT CAN RETRY
+                const bg = this.add.rectangle(0, 0, width - 40, 220, 0x330000, 0.9);
+                bg.setStrokeStyle(4, 0xff0000);
+
+                const title = this.add.text(0, -80, 'INCORRECT', {
+                    fontSize: '24px',
+                    fontFamily: 'DeathNote, serif',
+                    color: '#ff0000'
+                }).setOrigin(0.5);
+
+                const name = this.add.text(0, -45, `${suspect.name} is not the hacker.`, {
+                    fontSize: '16px',
+                    fontFamily: 'Courier Prime, monospace',
+                    color: '#ffffff'
+                }).setOrigin(0.5);
+
+                const reason = this.add.text(0, -10, result.reason, {
+                    fontSize: '10px',
+                    fontFamily: 'Courier Prime, monospace',
+                    color: '#ffaa00',
+                    wordWrap: { width: width - 80 },
+                    align: 'center'
+                }).setOrigin(0.5);
+
+                const warning = this.add.text(0, 35, `⚠️ Attempts left: ${attemptsLeft}`, {
+                    fontSize: '12px',
+                    fontFamily: 'Courier Prime, monospace',
+                    color: '#ff6666',
+                    fontStyle: 'bold'
+                }).setOrigin(0.5);
+
+                const quote = this.add.text(0, 58, '"Investigate more carefully..."', {
+                    fontSize: '10px',
+                    fontFamily: 'Courier Prime, monospace',
+                    color: '#00aaff',
+                    fontStyle: 'italic'
+                }).setOrigin(0.5);
+
+                const retryBtn = this.add.text(0, 85, '[Continue Investigation]', {
+                    fontSize: '12px',
+                    fontFamily: 'Courier Prime, monospace',
+                    color: '#ffff00',
+                    backgroundColor: '#330000',
+                    padding: { x: 10, y: 5 }
+                }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+
+                retryBtn.on('pointerdown', () => {
+                    this.scene.restart();
+                });
+
+                resultContainer.add([bg, title, name, reason, warning, quote, retryBtn]);
+            }
         }
     }
 

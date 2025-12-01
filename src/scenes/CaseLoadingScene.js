@@ -49,6 +49,8 @@ export class CaseLoadingScene extends Phaser.Scene {
             this.registry.set('validator', validator);
             this.registry.set('discoveredEvidence', []); // Track what player has found
             this.registry.set('currentKillIndex', 0); // Start with first kill
+            this.registry.set('wrongAccusations', 0); // Track wrong guesses
+            this.registry.set('maxAccusations', 2); // Allow 2 wrong tries before game over
 
             console.log('✓ Case loaded, starting investigation');
             

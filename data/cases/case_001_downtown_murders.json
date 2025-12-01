@@ -52,7 +52,7 @@
       "name": "Alex Tanaka",
       "role": "Grief counselor at community center",
       "motive": "Believes they're creating a better world by eliminating corrupt people through cyber means. Started after their parent died due to corporate negligence. Self-taught hacker with deep knowledge of IoT vulnerabilities.",
-      "isKira": true,
+      "isKira": false,
       "alibi": {
         "suspectId": "suspect_kira",
         "timeline": [
@@ -112,7 +112,7 @@
       "name": "Maya Ishikawa",
       "role": "Tech entrepreneur / Startup founder (AI/Security)",
       "motive": "Her startup was nearly destroyed by Marcus Chen's legal maneuvering. Lost millions. Has advanced tech knowledge and resources. Her security AI could potentially track and manipulate systems.",
-      "isKira": false,
+      "isKira": true,
       "alibi": {
         "suspectId": "suspect_004",
         "timeline": [
@@ -249,8 +249,35 @@
       "suspectId": "suspect_003",
       "evidenceIds": ["ev_006"],
       "description": "Victor Kane was at Sarah Mitchell's office building at the time of her death (7pm), as confirmed by CCTV. He claims he was doing surveillance but has no proof of who hired him.",
-      "isKeyContradiction": false,
+      "isKeyContradiction": true,
       "hours": [19]
+    },
+    {
+      "id": "contra_001b",
+      "type": "alibi_time",
+      "suspectId": "suspect_003",
+      "evidenceIds": ["ev_009"],
+      "description": "Victor Kane's boot size matches the partial footprint at the bridge (size 10). His alibi at 11pm claims he was home, but his wife has been known to cover for him in past cases.",
+      "isKeyContradiction": true,
+      "hours": [23]
+    },
+    {
+      "id": "contra_001c",
+      "type": "evidence_conflict",
+      "suspectId": "suspect_003",
+      "evidenceIds": ["ev_002"],
+      "description": "Victor was investigating Marcus Chen earlier that day. As a former cop with underworld connections, he has the skills to stage deaths as accidents or natural causes.",
+      "isKeyContradiction": false,
+      "hours": [22]
+    },
+    {
+      "id": "contra_001d",
+      "type": "alibi_time",
+      "suspectId": "suspect_003",
+      "evidenceIds": ["ev_003"],
+      "description": "Victor's informant at the bar claims Victor left around 9:30pm, not 10:30pm as stated. This gives him a 1-hour window unaccounted for during Marcus Chen's death.",
+      "isKeyContradiction": false,
+      "hours": [21, 22]
     },
     {
       "id": "contra_002",
@@ -258,8 +285,26 @@
       "suspectId": "suspect_004",
       "evidenceIds": ["ev_002", "ev_007"],
       "description": "Maya Ishikawa's company specializes in AI security systems capable of hacking networks and spoofing devices. Unknown devices appeared at two murder scenes with sophisticated spoofing - matching her company's capabilities.",
-      "isKeyContradiction": false,
+      "isKeyContradiction": true,
       "hours": [19, 22]
+    },
+    {
+      "id": "contra_002b",
+      "type": "alibi_time",
+      "suspectId": "suspect_004",
+      "evidenceIds": ["ev_010"],
+      "description": "Maya was working late 'testing security algorithms' with no witnesses at 9pm-11pm. Her AI security product specifically includes camera system vulnerabilities - explaining the bridge camera tampering.",
+      "isKeyContradiction": true,
+      "hours": [21, 23]
+    },
+    {
+      "id": "contra_002c",
+      "type": "evidence_conflict",
+      "suspectId": "suspect_004",
+      "evidenceIds": ["ev_003"],
+      "description": "Maya's company had a failed deal with a pharmaceutical company. Internal emails show she researched heart medication vulnerabilities for a 'product demo' weeks before Marcus Chen's death.",
+      "isKeyContradiction": true,
+      "hours": [22]
     },
     {
       "id": "contra_003",
@@ -267,35 +312,53 @@
       "suspectId": "suspect_002",
       "evidenceIds": ["ev_005", "ev_007"],
       "description": "Dr. Volkov had 'emergency session' at 7pm with no witnesses - same time as Sarah Mitchell's poisoning. She also researches justice psychology and has written about 'necessary evil' in her papers.",
-      "isKeyContradiction": false,
+      "isKeyContradiction": true,
       "hours": [19]
+    },
+    {
+      "id": "contra_003b",
+      "type": "alibi_time",
+      "suspectId": "suspect_002",
+      "evidenceIds": ["2"],
+      "description": "Dr. Volkov has extensive knowledge of poisons and sedatives from her psychiatric practice. Was alone at home during Detective Rodriguez's death with no witnesses.",
+      "isKeyContradiction": false,
+      "hours": [23]
+    },
+    {
+      "id": "contra_003c",
+      "type": "evidence_conflict",
+      "suspectId": "suspect_002",
+      "evidenceIds": ["ev_005"],
+      "description": "Dr. Volkov's research papers discuss 'removing harmful elements from society' for the greater good. She had treated victims of crimes committed by all three murder victims.",
+      "isKeyContradiction": false,
+      "hours": [19, 22]
     },
     {
       "id": "contra_004",
       "type": "alibi_time",
       "suspectId": "suspect_kira",
       "evidenceIds": ["0"],
-      "description": "Alex Tanaka claims witnesses for most of their evening, but has a gap: walked home alone between 9-9:30pm. Community center records show Alex left at 8:15pm, not 8pm - giving 75 minutes unaccounted for.",
-      "isKeyContradiction": true,
-      "hours": [20, 21]
+      "description": "Alex Tanaka's roommate could potentially have helped with city IT access, but there's no evidence they did. Roommate confirms Alex was home watching TV.",
+      "isKeyContradiction": false,
+      "hours": [22]
     },
     {
-      "id": "contra_005",
+      "id": "contra_004b",
       "type": "evidence_conflict",
       "suspectId": "suspect_kira",
-      "evidenceIds": ["ev_010"],
-      "description": "Bridge camera footage was tampered with during Detective Rodriguez's death. The tampering required remote access to city systems - Alex's roommate works for the city's IT department.",
-      "isKeyContradiction": true,
-      "hours": [23]
+      "evidenceIds": ["ev_007"],
+      "description": "Alex has a background in counseling victims of corporate crimes, including people harmed by Marcus Chen's legal work. Strong emotional motive.",
+      "isKeyContradiction": false,
+      "hours": [19]
     },
     {
-      "id": "contra_006",
-      "type": "evidence_conflict",
+      "id": "contra_004c",
+      "type": "alibi_time",
       "suspectId": "suspect_kira",
-      "evidenceIds": ["ev_002", "ev_007"],
-      "description": "Coffee shop receipt found in Alex's trash from 8:05pm shows they were still out, not home 'walking' as claimed. This timing allows presence at both Marcus Chen's apartment area (10pm) and access to bridge area (11pm).",
-      "isKeyContradiction": true,
-      "hours": [20, 21, 22]
+      "evidenceIds": ["1"],
+      "description": "Alex's friend 'Lisa' who supposedly met them at coffee shop at 8pm cannot be located for verification. No CCTV footage confirms this meeting.",
+      "isKeyContradiction": false,
+      "hours": [20]
     }
   ],
   "metadata": {

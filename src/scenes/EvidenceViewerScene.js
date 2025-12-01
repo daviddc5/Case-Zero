@@ -17,9 +17,21 @@ export class EvidenceViewerScene extends Phaser.Scene {
         // Compact header for mobile
         this.add.rectangle(0, 0, width, 50, 0x000000, 0.9).setOrigin(0);
         this.add.text(10, 10, 'EVIDENCE ROOM', {
-            fontSize: '18px',
+            fontSize: '16px',
             fontFamily: 'Courier Prime, monospace',
             color: '#00ff00'
+        });
+
+        // Help button (top right)
+        const helpBtn = this.add.text(width - 10, 10, '[?]', {
+            fontSize: '16px',
+            fontFamily: 'Courier Prime, monospace',
+            color: '#888888'
+        }).setOrigin(1, 0).setInteractive({ useHandCursor: true });
+        
+        helpBtn.on('pointerdown', () => {
+            helpBtn.setColor('#ffff00');
+            this.scene.start('InfoScene');
         });
         
         this.add.text(10, 32, `Case: ${engine.currentCase.title} | Kill ${currentKill + 1} of ${engine.currentCase.kills.length}`, {

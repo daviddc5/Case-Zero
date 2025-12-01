@@ -19,13 +19,20 @@ export class MainMenuScene extends Phaser.Scene {
             align: 'center'
         }).setOrigin(0.5);
 
-        // Button on right side (plenty of space)
+        // Buttons on right side
         const detectiveBtn = this.createButton(
             width * 0.7, 
-            height / 2, 
+            height / 2 - 40, 
             'START INVESTIGATION'
         );
         detectiveBtn.on('pointerdown', () => this.startDetectiveMode());
+
+        const helpBtn = this.createButton(
+            width * 0.7,
+            height / 2 + 40,
+            'HOW TO PLAY'
+        );
+        helpBtn.on('pointerdown', () => this.scene.start('InfoScene'));
 
         // Footer
         this.add.text(width / 2, height - 20, 'Detective Mode • Landscape', {
