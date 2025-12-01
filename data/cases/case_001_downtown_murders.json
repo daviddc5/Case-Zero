@@ -1,0 +1,286 @@
+{
+  "id": "case_001_test",
+  "title": "The Downtown Murders",
+  "description": "Three connected deaths over one week. A corporate lawyer, a journalist, and a police detective. All died under mysterious circumstances.",
+  "kills": [
+    {
+      "index": 0,
+      "victim": {
+        "id": "victim_001",
+        "name": "Marcus Chen",
+        "background": "Corporate lawyer known for defending white-collar criminals. Recently won a case that let a corrupt CEO walk free.",
+        "causeOfDeath": "Heart attack",
+        "timeOfDeath": 22,
+        "location": "home_apartment"
+      },
+      "method": "heart_attack",
+      "room": "apartment_scene_1",
+      "evidenceIds": ["ev_001", "ev_002", "ev_003"]
+    },
+    {
+      "index": 1,
+      "victim": {
+        "id": "victim_002",
+        "name": "Sarah Mitchell",
+        "background": "Investigative journalist working on exposing corruption in city government. Was about to publish a major story.",
+        "causeOfDeath": "Poisoning (cyanide)",
+        "timeOfDeath": 19,
+        "location": "office_building"
+      },
+      "method": "poison",
+      "room": "office_scene_2",
+      "evidenceIds": ["ev_004", "ev_005", "ev_006", "ev_007"]
+    },
+    {
+      "index": 2,
+      "victim": {
+        "id": "victim_003",
+        "name": "Detective James Rodriguez",
+        "background": "Police detective investigating both previous deaths. Started connecting them as part of a pattern.",
+        "causeOfDeath": "Staged accident (pushed from bridge)",
+        "timeOfDeath": 23,
+        "location": "riverside_bridge"
+      },
+      "method": "accident",
+      "room": "bridge_scene_3",
+      "evidenceIds": ["ev_008", "ev_009", "ev_010"]
+    }
+  ],
+  "suspects": [
+    {
+      "id": "suspect_kira",
+      "name": "Alex Tanaka",
+      "role": "University student / Part-time data analyst",
+      "motive": "Believes they're creating a better world by eliminating corrupt people. Started after their parent died due to corporate negligence.",
+      "isKira": true,
+      "alibi": {
+        "suspectId": "suspect_kira",
+        "timeline": [
+          {"hour": 18, "location": "university_library", "activity": "Studying for exams", "witnesses": ["librarian"]},
+          {"hour": 19, "location": "university_library", "activity": "Still studying", "witnesses": []},
+          {"hour": 20, "location": "home_apartment", "activity": "Walking home", "witnesses": []},
+          {"hour": 21, "location": "home_apartment", "activity": "At home", "witnesses": []},
+          {"hour": 22, "location": "home_apartment", "activity": "At home watching TV", "witnesses": ["roommate"]},
+          {"hour": 23, "location": "home_apartment", "activity": "Asleep", "witnesses": ["roommate"]}
+        ],
+        "statement": "I was at the library until 8pm, then walked home. I watched TV with my roommate and went to bed around 11:30pm."
+      },
+      "relatedEvidence": ["ev_002", "ev_007", "ev_010"]
+    },
+    {
+      "id": "suspect_002",
+      "name": "Dr. Elena Volkov",
+      "role": "Psychiatrist",
+      "motive": "Had access to patient records showing victims' crimes. Treated some of the victims' past victims for trauma.",
+      "isKira": false,
+      "alibi": {
+        "suspectId": "suspect_002",
+        "timeline": [
+          {"hour": 18, "location": "private_clinic", "activity": "Patient sessions", "witnesses": ["receptionist"]},
+          {"hour": 19, "location": "private_clinic", "activity": "Patient sessions", "witnesses": ["receptionist"]},
+          {"hour": 20, "location": "restaurant_downtown", "activity": "Dinner meeting", "witnesses": ["colleague"]},
+          {"hour": 21, "location": "restaurant_downtown", "activity": "Still at dinner", "witnesses": ["colleague"]},
+          {"hour": 22, "location": "home_apartment", "activity": "Arrived home", "witnesses": []},
+          {"hour": 23, "location": "home_apartment", "activity": "At home", "witnesses": []}
+        ],
+        "statement": "I had back-to-back sessions until 8pm, then dinner with a colleague downtown. Got home around 10pm."
+      },
+      "relatedEvidence": ["ev_005"]
+    },
+    {
+      "id": "suspect_003",
+      "name": "Victor Kane",
+      "role": "Private investigator",
+      "motive": "Was hired to investigate the victims. Has connections to criminal underworld. Could be eliminating witnesses.",
+      "isKira": false,
+      "alibi": {
+        "suspectId": "suspect_003",
+        "timeline": [
+          {"hour": 18, "location": "downtown_office", "activity": "Following a lead", "witnesses": []},
+          {"hour": 19, "location": "office_building", "activity": "Surveillance", "witnesses": []},
+          {"hour": 20, "location": "downtown_bar", "activity": "Meeting informant", "witnesses": ["bartender"]},
+          {"hour": 21, "location": "downtown_bar", "activity": "Still at bar", "witnesses": ["bartender"]},
+          {"hour": 22, "location": "home_apartment", "activity": "Reviewing notes at home", "witnesses": []},
+          {"hour": 23, "location": "riverside_bridge", "activity": "Following lead", "witnesses": []}
+        ],
+        "statement": "I was working a case. Had surveillance, then met an informant at O'Malley's Bar. Went home briefly, then had to check a lead near the river around 11pm."
+      },
+      "relatedEvidence": ["ev_006", "ev_009"]
+    },
+    {
+      "id": "suspect_004",
+      "name": "Maya Ishikawa",
+      "role": "Tech entrepreneur / Startup founder",
+      "motive": "Her startup was nearly destroyed by Marcus Chen's legal maneuvering. Lost millions. Has resources and tech knowledge.",
+      "isKira": false,
+      "alibi": {
+        "suspectId": "suspect_004",
+        "timeline": [
+          {"hour": 18, "location": "startup_office", "activity": "Team meeting", "witnesses": ["employees"]},
+          {"hour": 19, "location": "startup_office", "activity": "Working late", "witnesses": ["employees"]},
+          {"hour": 20, "location": "startup_office", "activity": "Still working", "witnesses": []},
+          {"hour": 21, "location": "gym_downtown", "activity": "Evening workout", "witnesses": ["trainer"]},
+          {"hour": 22, "location": "home_apartment", "activity": "Home", "witnesses": []},
+          {"hour": 23, "location": "home_apartment", "activity": "Asleep", "witnesses": []}
+        ],
+        "statement": "Long day at the office working on our product launch. Hit the gym around 9pm to clear my head, then went straight home."
+      },
+      "relatedEvidence": ["ev_003"]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_001",
+      "type": "autopsy",
+      "name": "Marcus Chen Autopsy Report",
+      "description": "Death by cardiac arrest. No signs of forced entry or struggle. Victim appeared to die instantly around 10pm.",
+      "location": "home_apartment",
+      "killIndex": 0,
+      "metadata": {
+        "timeEstimate": "22:00-22:30"
+      }
+    },
+    {
+      "id": "ev_002",
+      "type": "digital",
+      "name": "Victim's Computer Search History",
+      "description": "Browser history shows searches for 'heart attack symptoms' and 'sudden cardiac death' from an unknown device on the local network 30 minutes before death.",
+      "location": "home_apartment",
+      "killIndex": 0,
+      "metadata": {
+        "suspicious": true,
+        "deviceId": "unknown_mobile"
+      }
+    },
+    {
+      "id": "ev_003",
+      "type": "physical",
+      "name": "Prescription Bottle",
+      "description": "Empty prescription bottle for nitroglycerin (heart medication) found in trash. Victim had no heart condition.",
+      "location": "home_apartment",
+      "killIndex": 0,
+      "metadata": {}
+    },
+    {
+      "id": "ev_004",
+      "type": "autopsy",
+      "name": "Sarah Mitchell Autopsy Report",
+      "description": "Cyanide poisoning. Death occurred rapidly, between 7pm-8pm. Poison was in her coffee.",
+      "location": "office_building",
+      "killIndex": 1,
+      "metadata": {
+        "timeEstimate": "19:00-19:30"
+      }
+    },
+    {
+      "id": "ev_005",
+      "type": "physical",
+      "name": "Coffee Cup",
+      "description": "Victim's coffee cup contained traces of cyanide. Cup was from office break room. No fingerprints except victim's.",
+      "location": "office_building",
+      "killIndex": 1,
+      "metadata": {}
+    },
+    {
+      "id": "ev_006",
+      "type": "cctv",
+      "name": "Office Building CCTV",
+      "description": "Footage shows Victor Kane entering the building at 7:00pm and leaving at 7:20pm. He did not go to victim's floor according to elevator logs.",
+      "location": "office_building",
+      "killIndex": 1,
+      "metadata": {
+        "hour": 19,
+        "location": "office_building",
+        "capturedPerson": "suspect_003"
+      }
+    },
+    {
+      "id": "ev_007",
+      "type": "digital",
+      "name": "Office Network Logs",
+      "description": "Unknown device accessed building WiFi from 6:45pm-7:15pm. Device spoofed MAC address but logged near victim's office.",
+      "location": "office_building",
+      "killIndex": 1,
+      "metadata": {
+        "suspicious": true,
+        "techSavvy": true
+      }
+    },
+    {
+      "id": "ev_008",
+      "type": "autopsy",
+      "name": "Detective Rodriguez Autopsy Report",
+      "description": "Multiple contusions consistent with fall from height. Death occurred around 11pm. Small puncture wound on neck suggests possible sedative injection before fall.",
+      "location": "riverside_bridge",
+      "killIndex": 2,
+      "metadata": {
+        "timeEstimate": "23:00-23:15"
+      }
+    },
+    {
+      "id": "ev_009",
+      "type": "physical",
+      "name": "Partial Footprint",
+      "description": "Partial boot print found at scene, size 10. Matches common hiking boot brand. Victor Kane wears size 10 boots.",
+      "location": "riverside_bridge",
+      "killIndex": 2,
+      "metadata": {
+        "shoeSize": 10,
+        "brand": "TrailMaster"
+      }
+    },
+    {
+      "id": "ev_010",
+      "type": "cctv",
+      "name": "Bridge Traffic Camera",
+      "description": "Camera shows no vehicles near bridge 10:30pm-11:30pm. However, footage has a 5-minute gap at 11:05pm-11:10pm due to 'technical malfunction'.",
+      "location": "riverside_bridge",
+      "killIndex": 2,
+      "metadata": {
+        "hour": 23,
+        "tampering": true
+      }
+    }
+  ],
+  "contradictions": [
+    {
+      "id": "contra_001",
+      "type": "evidence_conflict",
+      "suspectId": "suspect_003",
+      "evidenceIds": ["ev_006"],
+      "description": "Victor Kane claims he was at the office building at 7pm doing surveillance, and CCTV confirms this. However, this contradicts his statement about being 'downtown' - the office building IS downtown, but he never mentioned being at the victim's building specifically.",
+      "isKeyContradiction": false
+    },
+    {
+      "id": "contra_002",
+      "type": "alibi_time",
+      "suspectId": "suspect_003",
+      "evidenceIds": ["2"],
+      "description": "Victor Kane claims to be at the riverside bridge at 11pm 'following a lead', placing him at the exact location and time of Detective Rodriguez's death. He has no witnesses for this.",
+      "isKeyContradiction": true
+    },
+    {
+      "id": "contra_003",
+      "type": "evidence_conflict",
+      "suspectId": "suspect_kira",
+      "evidenceIds": ["ev_002", "ev_007"],
+      "description": "Unknown devices with spoofed identities appeared near both Kill 1 and Kill 2, showing technical knowledge. Alex Tanaka is a data analyst with tech skills. The digital evidence pattern suggests someone tech-savvy is involved.",
+      "isKeyContradiction": true
+    },
+    {
+      "id": "contra_004",
+      "type": "alibi_time",
+      "suspectId": "suspect_kira",
+      "evidenceIds": ["0", "1"],
+      "description": "Alex claims to have been home during both Marcus Chen's death (10pm) and at the library during Sarah Mitchell's death (7pm). However, the library closes at 8pm, and the librarian only remembers seeing Alex earlier in the afternoon, not at 6-7pm.",
+      "isKeyContradiction": true
+    }
+  ],
+  "metadata": {
+    "totalKills": 3,
+    "difficulty": "medium",
+    "createdBy": "hand_crafted",
+    "version": "1.0",
+    "notes": "Tutorial case demonstrating alibi contradictions, digital evidence, and pattern recognition."
+  }
+}
