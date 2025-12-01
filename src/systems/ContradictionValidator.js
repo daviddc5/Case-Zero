@@ -211,4 +211,54 @@ export class ContradictionValidator {
         // Must find at least 1 key contradiction
         return foundKey.length > 0;
     }
+
+    /**
+     * Check if a suspect accusation is correct
+     * @param {string} suspectId - Suspect being accused
+     * @returns {Object} Result object with success, contradictions, and reason
+     */
+    checkAccusation(suspectId) {
+        const suspect = this.case.suspects.find(s => s.id === suspectId);
+        
+        if (!suspect) {
+            return {
+                success: false,
+                contradictions: [],
+                reason: 'Invalid suspect'
+            };
+        }
+
+        // Find all contradictions for this suspect
+        const contradictions = this.findContradictionsForSuspect(suspectId);
+        
+        // Get predefined contradictions from case data
+        const caseContradictions = this.case.contradictions.filter(c => c.suspectId === suspectId);
+        const keyContradictions = caseContradictions.filter(c => c.isKeyContradiction);
+
+        if (suspect.isKira) {
+            // Correct accusation
+            return {
+                success: true,
+                contradictions: caseContradictions,
+                reason: `${suspect.name} is Kira. Evidence shows ${keyContradictions.length} key contradictions in their alibi.`
+            };
+        } else {
+            // Wrong accusation
+            let reason = `${suspect.name} is not Kira.`;
+            
+            if (keyContradictions.length > 0) {
+                reason += ` While they have ${keyContradictions.length} contradictions, they are not the true culprit.`;
+            } else if (contradictions.length > 0) {
+                reason += ` Their ${contradictions.length} contradictions are not sufficient to prove they are Kira.`;
+            } else {
+                reason += ` They have a solid alibi with no major contradictions.`;
+            }
+            
+            return {
+                success: false,
+                contradictions: caseContradictions,
+                reason: reason
+            };
+        }
+    }
 }
